@@ -3,6 +3,42 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import {Line} from 'react-chartjs-2';
+import request from 'request';
+
+class Page extends React.Component {
+    render() {
+        return (
+            <div>
+                <p>starting...</p>
+                <div><Sensors /></div>
+            </div>
+        );
+    }
+}
+
+class Sensors extends React.Component {
+    constructor(props) {
+        super(props);
+        var me = this; //provide handle to state functions within callbacks.
+        me.state = {date: new Date()};
+        request('https://jsonplaceholder.typicode.com/posts/1', function(err, resp, body) {
+            me.setState({err: err, resp: resp, body: body})
+            console.log('page returned!')
+            console.log('err', err)
+            console.log('resp', resp)
+            console.log('body', body)
+        })
+    }
+
+    render() {
+        return(
+            <div>
+                <p>yo! sensor data</p><br/>
+                <p>{this.state.body}</p>
+            </div>
+        );
+    }
+}
 
 var cdata = {
     labels: ["Thu", "Fri", "Sat", "Sun", "Mon", "Tue"],
@@ -41,17 +77,6 @@ var copts = {
     }
 }
 
-class Page extends React.Component {
-    render() {
-        return (
-            <div>
-                <div><Header /></div>
-                <div><Temps /></div>
-                <div><MyChart /></div>
-            </div>
-        );
-    }
-}
 
 class MyChart extends React.Component {
     render() {
@@ -88,5 +113,4 @@ class Temps extends React.Component {
 }
 
 ReactDOM.render(<Page />, document.getElementById('root'));
-//ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

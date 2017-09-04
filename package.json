@@ -3,6 +3,8 @@
   "version": "0.1.1",
   "private": true,
   "dependencies": {
+    "axiom": "^0.1.6",
+    "axios": "^0.16.2",
     "chart.js": "^2.6.0",
     "react": "^15.6.1",
     "react-chartjs-2": "^2.6.1",

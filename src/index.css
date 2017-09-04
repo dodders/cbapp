@@ -15,10 +15,12 @@ body {
   border-style: solid;
   border-color: darkblue;
   border-width: 1px;
-  min-height: 50px;
+  min-height: 40px;
+  max-height: 50px;
   padding: 5px;
   font-size: 1.8em;
   text-indent: 10px;
+  padding-top: 15px;
 }
 
 .left {

@@ -20,8 +20,10 @@ class Sensors extends React.Component {
     constructor(props) {
         super(props);
         var me = this; //provide handle to state functions within callbacks.
+        var url = 'http://74.208.159.205:5000/Sensors'
+        //var url = 'https://jsonplaceholder.typicode.com/posts/1'
         me.state = {date: new Date()};
-        request('https://jsonplaceholder.typicode.com/posts/1', function(err, resp, body) {
+        request(url, function(err, resp, body) {
             me.setState({err: err, resp: resp, body: body})
             console.log('page returned!')
             console.log('err', err)

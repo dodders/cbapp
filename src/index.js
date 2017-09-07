@@ -4,6 +4,7 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import {Line} from 'react-chartjs-2';
 import request from 'request';
+import MetricsGraphics from 'react-metrics-graphics';
 
 class Page extends React.Component {
     render() {
@@ -16,13 +17,50 @@ class Page extends React.Component {
     }
 }
 
+var gdata = 
+[
+    {
+        "date": "10/5/2017",
+        "value": 1
+    },
+    {
+        "date": "10/6/2017",
+        "value": 5
+    },
+    {
+        "date": "10/7/2017",
+        "value": 100
+    }
+]
+
+class NewGraph extends React.Component {
+    render() {
+        return (
+            <div>
+                Hi, new component.<br/>
+                <div>
+                <MetricsGraphics
+                    title="Temps"
+                    chart_type='line'
+                    data={gdata}
+                    width={600}
+                    height={250}
+                    x_accessor="date"
+                    y_accessor="value"
+                />
+                </div>
+            </div>
+        );
+    }
+}
+
 class Sensors extends React.Component {
     constructor(props) {
         super(props);
         var me = this; //provide handle to state functions within callbacks.
         var url = 'http://74.208.159.205:5000/Sensors'
         //var url = 'https://jsonplaceholder.typicode.com/posts/1'
-        me.state = {date: new Date()};
+        me.state = {body: {"_items":{}}}
         request(url, function(err, resp, body) {
             me.setState({err: err, resp: resp, body: body})
             console.log('page returned!')
@@ -36,7 +74,8 @@ class Sensors extends React.Component {
         return(
             <div>
                 <p>yo! sensor data</p><br/>
-                <p>{this.state.body}</p>
+                <p>state = {this.state.body[0]}</p><br/>
+                <p><Line data={cdata} options={copts} /></p>
             </div>
         );
     }

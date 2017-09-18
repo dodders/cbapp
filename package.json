@@ -6,6 +6,7 @@
     "axiom": "^0.1.6",
     "axios": "^0.16.2",
     "chart.js": "^2.6.0",
+    "dateformat": "^2.0.0",
     "react": "^15.6.1",
     "react-chartjs-2": "^2.6.1",
     "react-dom": "^15.6.1",

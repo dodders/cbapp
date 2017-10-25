@@ -7,9 +7,8 @@ import request from 'request';
 import MetricsGraphics from 'react-metrics-graphics';
 import dateformat from 'dateformat';
 
-var url = 'http://74.208.159.205:5000/Sensors?page=IDX&where={"type":"F","time":{"$gte":1507953600}}'
-var oct14start = 1507953600.0
-var oct14end = 1508040000.0
+//var url = 'http://74.208.159.205:5000/Sensors?page=IDX&where={"type":"F","time":{"$gte":1507953600}}'
+var url = 'http://localhost:5000/test'
 var curData = []
 
 class Page extends React.Component {
@@ -26,32 +25,21 @@ class Page extends React.Component {
 class App extends React.Component {
 	constructor(props){
 		super(props);
-		this.state=null;
-		this.getPage(1, this.state);
-	}
-	
-	getPage(page, mystate) {
-		console.log('requesting page ', page);
-		var actualURL = url.replace('IDX',page);
+		//this.state=null;
+		console.log('requesting data...');
+		var actualURL = url;
+		var me = this;
 
 		request(actualURL, function(err, resp, body) {
 			console.log('returned from request call!');
 			var rawdata = JSON.parse(body);
-			for (var i = 0; i < body._items.length; i++) {
-				var el = body._items[i]
-				curData.push({'date': new Date(this.fmtDate(el.time)), 'value': this.fmtTemp(el.value)})
+			//first item is the count so skip that...
+			for (var i = 1; i < rawdata.length; i++) {
+				var el = rawdata[i]
+				curData.push({'date': new Date(me.fmtDate(el.time)), 'value': el.value})
 			}
-			if (body._links.next !== null) {
-				page = page + 1;
-				this.getPage(page);
-			} else {
-				mystate.setState({"data": curData});				
-			}
+			me.setState({"data": curData});				
 		});
-	}
-
-	changeDateRange(minDate,maxDate){
-		//this.setState({minDate:minDate, maxDate:maxDate});
 	}
 
 	render () {
@@ -77,14 +65,6 @@ class App extends React.Component {
 					x_accessor="date"
 					y_accessor="value"
 				/>
-				{/* <div className="exampleToolBox">
-					<button className="isimple-btn" onClick={this.changeDateRange.bind(this,minDate,new Date('2014-01-15')) }>
-						Set Max Date to 1/15/2014
-					</button>
-					<button className="isimple-btn" onClick={this.changeDateRange.bind(this,minDate,new Date('2014-01-30')) }>
-						Set Max Date to 1/30/2014
-					</button>
-				</div> */}
 			</div>
 		);
 	}

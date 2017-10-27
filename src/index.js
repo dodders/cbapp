@@ -7,8 +7,9 @@ import request from 'request';
 import MetricsGraphics from 'react-metrics-graphics';
 import dateformat from 'dateformat';
 
+var url = 'http://74.208.159.205:5000/sensor/51?skip=10&type=F'
 //var url = 'http://74.208.159.205:5000/Sensors?page=IDX&where={"type":"F","time":{"$gte":1507953600}}'
-var url = 'http://localhost:5000/test'
+//var url = 'http://localhost:5000/test'
 var curData = []
 
 class Page extends React.Component {

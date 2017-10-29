@@ -8,6 +8,8 @@ import MetricsGraphics from 'react-metrics-graphics';
 import dateformat from 'dateformat';
 
 var url = 'http://74.208.159.205:5000/sensor/51?skip=10&type=F'
+var sensorlisturl = 'http://74.208.159.205:5000/sensorlist'
+
 //var url = 'http://74.208.159.205:5000/Sensors?page=IDX&where={"type":"F","time":{"$gte":1507953600}}'
 //var url = 'http://localhost:5000/test'
 var curData = []
@@ -16,14 +18,55 @@ class Page extends React.Component {
     render() {
         return (
             <div>
-                <p>starting...</p>
-                <div><App /></div>
+                <div><SensorPicker /></div>
+                <div><Graph /></div>
             </div>
         );
     }
 }
 
-class App extends React.Component {
+class SensorPicker extends React.Component {
+
+	constructor(props) {
+		super(props);
+		var me = this;
+		request(sensorlisturl, function(err, resp, body) {
+			console.log('got sensor list:', body);
+			me.setState({"sensors": JSON.parse(body)});
+		})
+	}
+
+	render() {
+		if (this.state == null) {
+			return(
+				<div>
+					<p>Sensor Picker</p>
+				</div>
+			)
+		}
+		var sensoropts = this.state.sensors.map(function(v) {
+			var s = '<option value=' + v + '>' + v + '</option>'
+			return s.replace(/"/g, '')
+		})
+		console.log(sensoropts)
+
+		// var sensoropts = [
+		// 	<option key={1} value="grapefruit">Grapefruit</option>,
+		// 	<option key={2} value="lime">Lime</option>
+		// ]
+		return (
+			<div>
+				<div>
+					<select>
+						{sensoropts}
+					</select>
+				</div>
+			</div>
+		)
+	};
+}
+
+class Graph extends React.Component {
 	constructor(props){
 		super(props);
 		//this.state=null;
@@ -57,7 +100,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<MetricsGraphics
-					title="Line Chart"
+					title="Sensor Data"
 					description="This is a simple line chart."
 					data={curData}
 					width={600}

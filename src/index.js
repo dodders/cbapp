@@ -9,27 +9,46 @@ import dateformat from 'dateformat';
 import 'react-select/dist/react-select.css';
 import Select from 'react-select';
 
-var url = 'http://74.208.159.205:5000/sensor/51?skip=10&type=F'
+//full url is http://74.208.159.205:5000/sensor/51?skip=10&type=F'
+var baseurl = 'http://74.208.159.205:5000/sensor/'
 var sensorlisturl = 'http://74.208.159.205:5000/sensorlist'
-var curData = []
 
 class Page extends React.Component {
-	handleSensorChange(sens) {
-		console.log('sensor selected:', sens)
-		this.setState = {selected: sens}
-	}
-
 	constructor(props) {
 		super(props)
 		this.handleSensorChange = this.handleSensorChange.bind(this)
+		this.loadSensors = this.loadSensors.bind(this)
+		this.loadGraph = this.loadGraph.bind(this)
+		this.state = {selected: '', sensors: '', data: ''}
+	}
+
+	handleSensorChange(sens) {
+		console.log('sensor selected:', sens)
+		this.setState({selected: sens, sensors: this.state.sensors, data: this.state.data})
+	}
+
+	loadSensors(sensors) {
+		this.setState({selected: this.state.selected, sensors: sensors, data: this.state.data})
+	}
+
+	loadGraph(points) {
+		this.setState({selected: this.state.selected, sensors: this.state.sensors, data: points})
 	}
 
     render() {
-		var data = {selected: ''}	
         return (
             <div>
-                <div><SensorPicker inp={data} /></div>
-                <div><Graph inp={data} /></div>
+                <div><SensorPicker
+					handleSensorChange={this.handleSensorChange}
+					loadSensors = {this.loadSensors}
+					selected = {this.state.selected}
+					sensors = {this.state.sensors} />
+				</div>
+                <div><Graph
+					loadGraph = {this.loadGraph}
+					selected = {this.state.selected}
+					data = {this.state.data} />
+				</div>
             </div>
         );
     }
@@ -41,28 +60,23 @@ class SensorPicker extends React.Component {
 		var me = this;
 		request(sensorlisturl, function(err, resp, body) {
 			console.log('got sensor list:', body);
-			me.setState({"sensors": JSON.parse(body)});
+			me.props.loadSensors(JSON.parse(body));
 		})
 	}
 
 	render() {
-		if (this.state == null) {
+		if (this.props.sensors === '') {
 			return(
 				<div>
 					<p>Waiting for sensor list...</p>
 				</div>
 			)
 		}
-		var list = this.state.sensors.sort();
+		var list = this.props.sensors.sort();
 		var opts = []
 		list.forEach(function(v) {
 			opts.push({value: v, label: v});
 		})
-
-		function selChange(val) {
-			console.log('selected:' + JSON.stringify(val));
-			Select.value = val.value;
-		}
 
 		return (
 			<div className="sensor-header">
@@ -70,7 +84,8 @@ class SensorPicker extends React.Component {
 				<Select
 					name='select-box-name'
 					options={opts}
-					onChange={selChange}
+					onChange={this.props.handleSensorChange}
+					value = {this.props.selected}
 				/>
 			</div>
 		);
@@ -78,38 +93,42 @@ class SensorPicker extends React.Component {
 }
 
 class Graph extends React.Component {
-	constructor(props){
-		super(props);
-		var actualURL = url;
-		var me = this;
-
-		request(actualURL, function(err, resp, body) {
-			console.log('returned from request call!');
-			var rawdata = JSON.parse(body);
-			//first item is the count so skip that...
-			for (var i = 1; i < rawdata.length; i++) {
-				var el = rawdata[i]
-				curData.push({'date': new Date(me.fmtDate(el.time)), 'value': el.value})
-			}
-			me.setState({"data": curData});				
-		});
-	}
-
 	render () {
-		if (this.state == null) {
-			console.log('empty items list... skipping graph.')
+		if (this.props.selected === '') {
+			console.log('no sensor selected.')
 			return (
 				<div>
+					No graph data to display or load...
 				</div>
 			);
 		}
-		var curData = this.state.data;	
+		if (this.props.data === '') {
+			var actualURL = baseurl + this.props.selected.value + '?type=F'
+			console.log('requesting sensor data from ' + actualURL)
+			var curData = []
+			var lg = this.props.loadGraph
+			request(actualURL, function(err, resp, body) {
+				console.log('sensor data returned.');
+				var rawdata = JSON.parse(body);
+				//first item is the count so skip that...
+				for (var i = 1; i < rawdata.length; i++) {
+					var el = rawdata[i]
+					curData.push({'date': new Date(this.fmtDate(el.time)), 'value': el.value})
+				}
+				lg(curData);
+			});
+
+			return (
+				<div />
+			)
+		}
+		//render graph data if we have it.
 		return (
 			<div>
 				<MetricsGraphics
 					title="Sensor Data"
 					description="This is a simple line chart."
-					data={curData}
+					data={this.props.data}
 					width={600}
 					height={200}
 					right={40}
@@ -123,7 +142,6 @@ class Graph extends React.Component {
 	fmtDate(epochtime) {
 		var d = new Date(epochtime * 1000)
 		return dateformat(d, "yyyy-mmm-dd HH:MM:ss")
-		//return dateformat(d, "yyyymmmddHHMMss")
 	}
 }
 

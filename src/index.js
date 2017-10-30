@@ -24,7 +24,7 @@ class Page extends React.Component {
 
 	handleSensorChange(sens) {
 		console.log('sensor selected:', sens)
-		this.setState({selected: sens, sensors: this.state.sensors, data: this.state.data})
+		this.setState({selected: sens, sensors: this.state.sensors, data: ''})
 	}
 
 	loadSensors(sensors) {
@@ -103,17 +103,21 @@ class Graph extends React.Component {
 			);
 		}
 		if (this.props.data === '') {
+			var fmtDate = function(epochtime) {
+				var d = new Date(epochtime * 1000)
+				return dateformat(d, "yyyy-mmm-dd HH:MM:ss")
+			}	
 			var actualURL = baseurl + this.props.selected.value + '?type=F'
 			console.log('requesting sensor data from ' + actualURL)
 			var curData = []
 			var lg = this.props.loadGraph
 			request(actualURL, function(err, resp, body) {
-				console.log('sensor data returned.');
 				var rawdata = JSON.parse(body);
+				console.log(rawdata[0], ' sensor points returned.');				
 				//first item is the count so skip that...
 				for (var i = 1; i < rawdata.length; i++) {
 					var el = rawdata[i]
-					curData.push({'date': new Date(this.fmtDate(el.time)), 'value': el.value})
+					curData.push({'date': new Date(fmtDate(el.time)), 'value': el.value})
 				}
 				lg(curData);
 			});
@@ -123,10 +127,11 @@ class Graph extends React.Component {
 			)
 		}
 		//render graph data if we have it.
+		var title = 'Sensor ' + this.props.selected.value
 		return (
 			<div>
 				<MetricsGraphics
-					title="Sensor Data"
+					title={title}
 					description="This is a simple line chart."
 					data={this.props.data}
 					width={600}
@@ -137,11 +142,6 @@ class Graph extends React.Component {
 				/>
 			</div>
 		);
-	}
-
-	fmtDate(epochtime) {
-		var d = new Date(epochtime * 1000)
-		return dateformat(d, "yyyy-mmm-dd HH:MM:ss")
 	}
 }
 

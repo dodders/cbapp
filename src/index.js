@@ -44,6 +44,7 @@ class Page extends React.Component {
 					selected = {this.state.selected}
 					sensors = {this.state.sensors} />
 				</div>
+				<div><TypePicker /></div>
                 <div><Graph
 					loadGraph = {this.loadGraph}
 					selected = {this.state.selected}
@@ -52,6 +53,17 @@ class Page extends React.Component {
             </div>
         );
     }
+}
+
+class TypePicker extends React.Component {
+	render() {
+		var types = ['BAT', 'F', 'H', 'P', 'RSSI']		
+		return (
+			<div>
+				{JSON.stringify(types)}
+			</div>
+		);	
+	}
 }
 
 class SensorPicker extends React.Component {

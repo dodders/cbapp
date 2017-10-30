@@ -6,27 +6,36 @@ import registerServiceWorker from './registerServiceWorker';
 import request from 'request';
 import MetricsGraphics from 'react-metrics-graphics';
 import dateformat from 'dateformat';
+import 'react-select/dist/react-select.css';
+import Select from 'react-select';
 
 var url = 'http://74.208.159.205:5000/sensor/51?skip=10&type=F'
 var sensorlisturl = 'http://74.208.159.205:5000/sensorlist'
-
-//var url = 'http://74.208.159.205:5000/Sensors?page=IDX&where={"type":"F","time":{"$gte":1507953600}}'
-//var url = 'http://localhost:5000/test'
 var curData = []
 
 class Page extends React.Component {
+	handleSensorChange(sens) {
+		console.log('sensor selected:', sens)
+		this.setState = {selected: sens}
+	}
+
+	constructor(props) {
+		super(props)
+		this.handleSensorChange = this.handleSensorChange.bind(this)
+	}
+
     render() {
+		var data = {selected: ''}	
         return (
             <div>
-                <div><SensorPicker /></div>
-                <div><Graph /></div>
+                <div><SensorPicker inp={data} /></div>
+                <div><Graph inp={data} /></div>
             </div>
         );
     }
 }
 
 class SensorPicker extends React.Component {
-
 	constructor(props) {
 		super(props);
 		var me = this;
@@ -40,37 +49,37 @@ class SensorPicker extends React.Component {
 		if (this.state == null) {
 			return(
 				<div>
-					<p>Sensor Picker</p>
+					<p>Waiting for sensor list...</p>
 				</div>
 			)
 		}
-		var sensoropts = this.state.sensors.map(function(v) {
-			var s = '<option value=' + v + '>' + v + '</option>'
-			return s.replace(/"/g, '')
+		var list = this.state.sensors.sort();
+		var opts = []
+		list.forEach(function(v) {
+			opts.push({value: v, label: v});
 		})
-		console.log(sensoropts)
 
-		// var sensoropts = [
-		// 	<option key={1} value="grapefruit">Grapefruit</option>,
-		// 	<option key={2} value="lime">Lime</option>
-		// ]
+		function selChange(val) {
+			console.log('selected:' + JSON.stringify(val));
+			Select.value = val.value;
+		}
+
 		return (
-			<div>
-				<div>
-					<select>
-						{sensoropts}
-					</select>
-				</div>
+			<div className="sensor-header">
+				Select a sensor: 
+				<Select
+					name='select-box-name'
+					options={opts}
+					onChange={selChange}
+				/>
 			</div>
-		)
+		);
 	};
 }
 
 class Graph extends React.Component {
 	constructor(props){
 		super(props);
-		//this.state=null;
-		console.log('requesting data...');
 		var actualURL = url;
 		var me = this;
 
@@ -91,11 +100,9 @@ class Graph extends React.Component {
 			console.log('empty items list... skipping graph.')
 			return (
 				<div>
-					<p>Waiting for data...</p>
 				</div>
 			);
 		}
-
 		var curData = this.state.data;	
 		return (
 			<div>
@@ -118,38 +125,6 @@ class Graph extends React.Component {
 		return dateformat(d, "yyyy-mmm-dd HH:MM:ss")
 		//return dateformat(d, "yyyymmmddHHMMss")
 	}
-	
-	fmtTemp(temp) {
-		return temp.replace("\'","").replace("\'","").replace('b','').trim()    
-	}
-}
-
-class Header extends React.Component {
-    render() {
-        return (
-            <div className="header">
-                <a href="#menu" className="box-shadow-menu" alt="" />
-                Maine
-            </div>
-        );
-    }
-}
-
-class Temps extends React.Component {
-    render() {
-        return (
-            <div className="top">
-                <div className ="left">
-                    <span className="big">65F</span><br/>
-                    <span className="small">Living Room</span>
-                </div>
-                <div className ="right">
-                    <span className="big">55F</span><br/>
-                    <span className="small">Cellar</span>
-                </div>
-            </div>
-        );
-    }
 }
 
 ReactDOM.render(<Page />, document.getElementById('root'));

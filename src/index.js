@@ -8,7 +8,7 @@ import MetricsGraphics from 'react-metrics-graphics';
 import dateformat from 'dateformat';
 import 'react-select/dist/react-select.css';
 import Select from 'react-select';
-import {ButtonToolbar, Button} from 'react-bootstrap';
+import {ButtonToolbar, Button} from 'reactstrap';
 
 //full url is http://74.208.159.205:5000/sensor/51?skip=10&type=F'
 var baseurl = 'http://74.208.159.205:5000/sensor/'
@@ -28,6 +28,7 @@ class Page extends React.Component {
 		console.log('sensor selected:', sens)
 		var mystate = this.state
 		mystate.selected = sens
+		mystate.data = ''
 		this.setState(mystate)
 	}
 
@@ -119,7 +120,7 @@ class SensorPicker extends React.Component {
 		})
 
 		return (
-			<div className={styles.sensor-select}>
+			<div>
 				Select a sensor: 
 				<Select
 					name='select-box-name'

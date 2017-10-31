@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import styles from './index.css';
 import './mg.css';
 import registerServiceWorker from './registerServiceWorker';
 import request from 'request';
@@ -8,10 +8,12 @@ import MetricsGraphics from 'react-metrics-graphics';
 import dateformat from 'dateformat';
 import 'react-select/dist/react-select.css';
 import Select from 'react-select';
+import {ButtonToolbar, Button} from 'react-bootstrap';
 
 //full url is http://74.208.159.205:5000/sensor/51?skip=10&type=F'
 var baseurl = 'http://74.208.159.205:5000/sensor/'
 var sensorlisturl = 'http://74.208.159.205:5000/sensorlist'
+var appstate = {selected: '', sensors: '', data: '', type: ''}
 
 class Page extends React.Component {
 	constructor(props) {
@@ -19,23 +21,35 @@ class Page extends React.Component {
 		this.handleSensorChange = this.handleSensorChange.bind(this)
 		this.loadSensors = this.loadSensors.bind(this)
 		this.loadGraph = this.loadGraph.bind(this)
-		this.state = {selected: '', sensors: '', data: ''}
+		this.state = appstate
 	}
 
 	handleSensorChange(sens) {
 		console.log('sensor selected:', sens)
-		this.setState({selected: sens, sensors: this.state.sensors, data: ''})
+		var mystate = this.state
+		mystate.selected = sens
+		this.setState(mystate)
 	}
 
 	loadSensors(sensors) {
-		this.setState({selected: this.state.selected, sensors: sensors, data: this.state.data})
+		var mystate = this.state
+		mystate.sensors = sensors
+		this.setState(mystate)
 	}
 
-	loadGraph(points) {
-		this.setState({selected: this.state.selected, sensors: this.state.sensors, data: points})
+	loadGraph(data) {
+		var mystate = this.state
+		mystate.data = data
+		this.setState(mystate)
 	}
 
-    render() {
+	loadType(type) {
+		var mystate = this.state
+		mystate.data = type
+		this.setState(mystate)
+	}
+	
+	render() {
         return (
             <div>
                 <div><SensorPicker
@@ -56,16 +70,29 @@ class Page extends React.Component {
 }
 
 class TypePicker extends React.Component {
+	constructor(props, context) {
+		super(props, context)
+		this.state = {value: ['BAT', 'F', 'H', 'P', 'RSSI']}
+	}
+
+	onChange(val) {
+		console.log(JSON.stringify(val))
+	}
+
 	render() {
-		var types = ['BAT', 'F', 'H', 'P', 'RSSI']		
 		return (
 			<div>
-				{JSON.stringify(types)}
+				<ButtonToolbar>
+					<Button bsStyle='primary'>BAT</Button>
+					<Button bsStyle='primary'>F</Button>
+					<Button bsStyle='primary'>H</Button>
+					<Button bsStyle='primary'>P</Button>
+					<Button bsStyle='primary'>RSSI</Button>
+				</ButtonToolbar>
 			</div>
 		);	
 	}
 }
-
 class SensorPicker extends React.Component {
 	constructor(props) {
 		super(props);
@@ -80,6 +107,7 @@ class SensorPicker extends React.Component {
 		if (this.props.sensors === '') {
 			return(
 				<div>
+
 					<p>Waiting for sensor list...</p>
 				</div>
 			)
@@ -91,7 +119,7 @@ class SensorPicker extends React.Component {
 		})
 
 		return (
-			<div className="sensor-header">
+			<div className={styles.sensor-select}>
 				Select a sensor: 
 				<Select
 					name='select-box-name'

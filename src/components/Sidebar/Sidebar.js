@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Badge, Nav, NavItem} from 'reactstrap';
+import {Nav, NavItem, NavLink} from 'reactstrap';
 
 class Sidebar extends Component {
 
@@ -7,11 +7,20 @@ class Sidebar extends Component {
     // sidebar-nav root
     return (
       <div className="sidebar">
-        <nav className="sidebar-nav">
-          <Nav>
-            xyz
-          </Nav>
-        </nav>
+        <Nav className="sidebar-nav">
+            <NavItem>
+                <NavLink href="#">Link</NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink href="#">Link</NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink href="#">Another Link</NavLink>
+            </NavItem>
+            <NavItem>
+                <NavLink disabled href="#">Disabled Link</NavLink>
+            </NavItem>
+        </Nav>
       </div>
     )
   }

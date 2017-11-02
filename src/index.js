@@ -8,6 +8,7 @@ import TypePicker from './components/TypePicker/TypePicker'
 import Graph from './components/Graph/Graph'
 import SideBar from './components/Sidebar/Sidebar'
 import Header from './components/Header/Header'
+import './assets/pure-layout-email/css/layouts/email.css'
 
 var appstate = {selected: '', sensors: '', data: '', type: ''}
 
@@ -52,7 +53,7 @@ class Page extends React.Component {
 				<div>
 					<Header />
 				</div>
-				<div>
+				{/* <div>
 					<SideBar />
 				</div>
                 <div display="inline"><SensorPicker
@@ -67,7 +68,7 @@ class Page extends React.Component {
 					loadGraph = {this.loadGraph}
 					selected = {this.state.selected}
 					data = {this.state.data} />
-				</div>
+				</div> */}
             </div>
         );
     }

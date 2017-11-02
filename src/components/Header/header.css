@@ -1,0 +1,16 @@
+.custom-width {
+    width: 10em;
+}
+
+.menu-color {
+    background: rgb(37, 42, 58);
+    color: white;
+}
+
+.button-round {
+    color: #fff;
+    background: #1b98f8;
+    margin: 1em 0;
+    box-shadow: none;
+    border-radius: 20px;
+}

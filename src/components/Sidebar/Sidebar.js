@@ -1,19 +1,28 @@
-import React, {Component} from 'react';
-import {Badge, Nav, NavItem} from 'reactstrap';
+import React from 'react';
+import { Button } from 'reactstrap';
+import './sidebar.css'
 
-class Sidebar extends Component {
 
-  render() {
-    // sidebar-nav root
+class Sidebar extends React.Component {
+
+  handleClick = (evt) => {
+    this.props.sensorClick(evt.target.textContent)
+  }
+
+  render = () => {
     return (
       <div className="sidebar">
-        <nav className="sidebar-nav">
-          <Nav>
-            xyz
-          </Nav>
-        </nav>
+        {this.props.sensors.map(sensor => {
+          return (
+            <Button key={sensor}
+              color="primary"
+              onClick={this.handleClick}>
+              {sensor}
+            </Button>
+          );
+        })}
       </div>
-    )
+    );
   }
 }
 

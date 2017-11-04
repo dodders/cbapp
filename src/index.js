@@ -1,75 +1,63 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
-import MetricsGraphics from 'react-metrics-graphics';
-import {ButtonToolbar, Button} from 'reactstrap';
-import SensorPicker from './components/SensorPicker/SensorPicker'
-import TypePicker from './components/TypePicker/TypePicker'
-import Graph from './components/Graph/Graph'
-import SideBar from './components/Sidebar/Sidebar'
+import {Container, Row, Col} from 'reactstrap';
+import GraphContainer from './components/Graph/GraphContainer'
+import SideBarContainer from './components/Sidebar/SidebarContainer'
 import Header from './components/Header/Header'
-import './assets/pure-layout-email/css/layouts/email.css'
 
-var appstate = {selected: '', sensors: '', data: '', type: ''}
+var appstate = {sensor: ''}
 
 class Page extends React.Component {
 	constructor(props) {
 		super(props)
-		this.handleSensorChange = this.handleSensorChange.bind(this)
-		this.loadSensors = this.loadSensors.bind(this)
-		this.loadGraph = this.loadGraph.bind(this)
+		this.sensorClick = this.sensorClick.bind(this)
 		this.state = appstate
 	}
 
-	handleSensorChange(sens) {
+	sensorClick(sens) {
 		console.log('sensor selected:', sens)
-		var mystate = this.state
-		mystate.selected = sens
-		mystate.data = ''
-		this.setState(mystate)
-	}
-
-	loadSensors(sensors) {
-		var mystate = this.state
-		mystate.sensors = sensors
-		this.setState(mystate)
-	}
-
-	loadGraph(data) {
-		var mystate = this.state
-		mystate.data = data
-		this.setState(mystate)
-	}
-
-	loadType(type) {
-		var mystate = this.state
-		mystate.data = type
-		this.setState(mystate)
+		this.setState({sensor: sens})
 	}
 	
 	render() {
-        return (
-            <div>
-				<div>
-					<Header />
-				</div>
-				{/* <div>
-					<SideBar />
-				</div>
-                <div display="inline"><SensorPicker
-					handleSensorChange={this.handleSensorChange}
-					loadSensors = {this.loadSensors}
-					selected = {this.state.selected}
-					sensors = {this.state.sensors} />
-				</div>
-				<div display="inline">
-					<TypePicker /></div>
-                <div><Graph
-					loadGraph = {this.loadGraph}
-					selected = {this.state.selected}
-					data = {this.state.data} />
-				</div> */}
-            </div>
+        return (			
+			<Container>
+				<Row>
+					<Col>
+						<Header/>
+					</Col>
+				</Row>
+				<Row>
+					<Col className="col-2">
+						<SideBarContainer sensorClick={this.sensorClick} />
+					</Col>
+					<Col>
+						<GraphContainer sensor={this.state.sensor} />
+					</Col>
+				</Row>
+			</Container>
+            // <div>
+			// 	<div>
+			// 		<Header />
+			// 	</div>
+				// <div>
+				// 	<SideBar />
+				// </div>
+                // <div display="inline"><SensorPicker
+				// 	handleSensorChange={this.handleSensorChange}
+				// 	loadSensors = {this.loadSensors}
+				// 	selected = {this.state.selected}
+				// 	sensors = {this.state.sensors} />
+				// </div>
+				// <div display="inline">
+				// 	<TypePicker /></div>
+                // <div><Graph
+				// 	loadGraph = {this.loadGraph}
+				// 	selected = {this.state.selected}
+				// 	data = {this.state.data} />
+				// </div>
+            // </div>
         );
     }
 }

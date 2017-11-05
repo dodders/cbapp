@@ -22,6 +22,13 @@ class Page extends React.Component {
 	
 	render() {
 		console.log('index rendering with sensor ' + this.state.sensor)
+		let mygraph = null;
+		if (this.state.sensor === '') {
+			mygraph = <div>Empty graph!</div>
+		} else {
+			mygraph = <GraphContainer sensor={this.state.sensor} key={this.state.sensor} />
+		}
+
         return (			
 			<Container>
 				<Row>
@@ -34,7 +41,7 @@ class Page extends React.Component {
 						<SideBarContainer sensorClick={this.sensorClick} />
 					</Col>
 					<Col>
-						<GraphContainer sensor={this.state.sensor} />
+						{mygraph}
 					</Col>
 				</Row>
 			</Container>

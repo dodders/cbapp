@@ -8,43 +8,30 @@ class GraphContainer extends React.Component {
 
     constructor(props) {
         super(props)
+        console.log('graph container constructor...')
         this.state = {
-            data: [],
-            loaded: false
+            data: []
         }
     }
 
-    fetchData() {
-        console.log('graph loading for ' + this.props.sensor)
-        if (this.props.sensor === '') {
-            return
-        }
+    componentDidMount() {
+        console.log('graph container componentDidMount for ' + this.props.sensor)
         var _this = this
         var newurl = baseurl + this.props.sensor + '?type=F'
         console.log('fetching sensor data from ' + newurl)
         request(newurl, function(err, resp, body) {
-            console.log('got sensor list:', body);
+            console.log('got sensor list with ', body[0], ' items');
             _this.setState({data: JSON.parse(body), loaded: true})
 		})
     }
 
 	render() {
-        if (this.state.loaded === false) {
-            this.fetchData()
-        }
-        if (this.props.sensor === '') {
-            return (
-                <div>
-                    graph stuff!
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                   <Graph data={this.state.data} sensor={this.props.sensor} type='F' />
-                </div>
-            );
-        }
+        console.log('graph container render...')
+        return (
+            <div>
+                <Graph data={this.state.data} sensor={this.props.sensor} type='F' />
+            </div>
+        );
     }
 }
 

@@ -9,12 +9,13 @@ class GraphContainer extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            data: []
+            data: [],
+            loaded: false
         }
     }
 
     fetchData() {
-        console.log('graph updated...')
+        console.log('graph loading for ' + this.props.sensor)
         if (this.props.sensor === '') {
             return
         }
@@ -23,11 +24,14 @@ class GraphContainer extends React.Component {
         console.log('fetching sensor data from ' + newurl)
         request(newurl, function(err, resp, body) {
             console.log('got sensor list:', body);
-            _this.setState({data: JSON.parse(body)})
+            _this.setState({data: JSON.parse(body), loaded: true})
 		})
     }
 
 	render() {
+        if (this.state.loaded === false) {
+            this.fetchData()
+        }
         if (this.props.sensor === '') {
             return (
                 <div>
@@ -37,7 +41,7 @@ class GraphContainer extends React.Component {
         } else {
             return (
                 <div>
-                   <Graph sensor={this.props.sensor} />
+                   <Graph data={this.state.data} sensor={this.props.sensor} type='F' />
                 </div>
             );
         }

@@ -21,6 +21,7 @@ class Page extends React.Component {
 	}
 	
 	render() {
+		console.log('index rendering with sensor ' + this.state.sensor)
         return (			
 			<Container>
 				<Row>
@@ -37,27 +38,6 @@ class Page extends React.Component {
 					</Col>
 				</Row>
 			</Container>
-            // <div>
-			// 	<div>
-			// 		<Header />
-			// 	</div>
-				// <div>
-				// 	<SideBar />
-				// </div>
-                // <div display="inline"><SensorPicker
-				// 	handleSensorChange={this.handleSensorChange}
-				// 	loadSensors = {this.loadSensors}
-				// 	selected = {this.state.selected}
-				// 	sensors = {this.state.sensors} />
-				// </div>
-				// <div display="inline">
-				// 	<TypePicker /></div>
-                // <div><Graph
-				// 	loadGraph = {this.loadGraph}
-				// 	selected = {this.state.selected}
-				// 	data = {this.state.data} />
-				// </div>
-            // </div>
         );
     }
 }

@@ -1,69 +1,44 @@
 import React from 'react';
 import dateformat from 'dateformat'
-import request from 'request'
 import MetricsGraphics from 'react-metrics-graphics'
-
-const baseurl = 'http://74.208.159.205:5000/sensor/'
+import { Alert } from 'reactstrap'
 
 function fmtDate(epochtime) {
     var d = new Date(epochtime * 1000)
     return dateformat(d, "yyyy-mmm-dd HH:MM:ss")
 }
 
+function fmtData(data) {
+	var curData = []
+	for (var i = 1; i < data.length; i++) { //ignore 1st item
+		var el = data[i]
+		curData.push({'date': new Date(fmtDate(el.time)), 'value': el.value})
+	}
+	return curData
+}
+
 class Graph extends React.Component {
+
 	render() {
+		var title = 'Sensor ' + this.props.sensor
+		var data = fmtData(this.props.data)
+		console.log('sensor ' + this.props.sensor + ' graph rendering...')
 		return (
 			<div>
-				graphs for sensor {this.props.sensor}
-			</div>
-		);
+				<Alert color='info'>{title}</Alert>
+	 			<MetricsGraphics
+	 				title={title}
+	 				description="This is a simple line chart."
+	 				data={data}
+	 				width={600}
+	 				height={200}
+	 				right={40}
+	 				x_accessor="date"
+	 				y_accessor="value"
+	 			/>
+	 		</div>
+	 	);
 	}
-	// render () {
-	// 	if (this.props.selected === '') {
-	// 		console.log('no sensor selected.')
-	// 		return (
-	// 			<div>
-	// 				No graph data to display or load...
-	// 			</div>
-	// 		);
-	// 	}
-	// 	if (this.props.data === '') {
-	// 		var actualURL = baseurl + this.props.selected.value + '?type=F'
-	// 		console.log('requesting sensor data from ' + actualURL)
-	// 		var curData = []
-	// 		var lg = this.props.loadGraph
-	// 		request(actualURL, function(err, resp, body) {
-	// 			var rawdata = JSON.parse(body);
-	// 			console.log(rawdata[0], ' sensor points returned.');				
-	// 			//first item is the count so skip that...
-	// 			for (var i = 1; i < rawdata.length; i++) {
-	// 				var el = rawdata[i]
-	// 				curData.push({'date': new Date(fmtDate(el.time)), 'value': el.value})
-	// 			}
-	// 			lg(curData);
-	// 		});
-
-	// 		return (
-	// 			<div />
-	// 		)
-	// 	}
-	// 	//render graph data if we have it.
-	// 	var title = 'Sensor ' + this.props.selected.value
-	// 	return (
-	// 		<div>
-	// 			<MetricsGraphics
-	// 				title={title}
-	// 				description="This is a simple line chart."
-	// 				data={this.props.data}
-	// 				width={600}
-	// 				height={200}
-	// 				right={40}
-	// 				x_accessor="date"
-	// 				y_accessor="value"
-	// 			/>
-	// 		</div>
-	// 	);
-	//}
 }
 
 export default Graph;

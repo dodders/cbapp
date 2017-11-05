@@ -1,6 +1,7 @@
 import React from 'react';
 import request from 'request'
 import Graph from './Graph'
+import { Alert } from 'reactstrap'
 
 const baseurl = 'http://74.208.159.205:5000/sensor/'
 
@@ -17,21 +18,31 @@ class GraphContainer extends React.Component {
     componentDidMount() {
         console.log('graph container componentDidMount for ' + this.props.sensor)
         var _this = this
-        var newurl = baseurl + this.props.sensor + '?type=F'
+        var newurl = baseurl + this.props.sensor + '?type=' + this.props.type + '&skip=10'
         console.log('fetching sensor data from ' + newurl)
         request(newurl, function(err, resp, body) {
-            console.log('got sensor list with ', body[0], ' items');
+            console.log('got sensor list with ', body);
             _this.setState({data: JSON.parse(body), loaded: true})
 		})
     }
 
 	render() {
         console.log('graph container render...')
-        return (
-            <div>
-                <Graph data={this.state.data} sensor={this.props.sensor} type='F' />
-            </div>
-        );
+        if (this.state.data.length <= 1) {
+            return (
+                <div>
+                    <Alert color="info">
+                        No data found for {this.props.type}
+                    </Alert>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <Graph data={this.state.data} sensor={this.props.sensor} type={this.props.type} />
+                </div>
+            );
+        }
     }
 }
 

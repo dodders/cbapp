@@ -1,7 +1,6 @@
 import React from 'react';
 import dateformat from 'dateformat'
 import MetricsGraphics from 'react-metrics-graphics'
-import { Alert } from 'reactstrap'
 import './mg.css'
 
 function fmtDate(epochtime) {
@@ -27,12 +26,11 @@ class Graph extends React.Component {
 
 	render() {
 		console.log('graph render fired...')
-		var title = 'Sensor ' + this.props.sensor
+		var title = this.props.type
 		var data = fmtData(this.props.data)
 		console.log('sensor ' + this.props.sensor + ' graph rendering...')
 		return (
 			<div>
-				<Alert color='info'>{title}</Alert>
 	 			<MetricsGraphics
 	 				title={title}
 	 				description="This is a simple line chart."

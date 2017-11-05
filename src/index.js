@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import {Container, Row, Col} from 'reactstrap';
-import GraphContainer from './components/Graph/GraphContainer'
+import GraphList from './components/GraphList/GraphList'
 import SideBarContainer from './components/Sidebar/SidebarContainer'
 import Header from './components/Header/Header'
 
@@ -22,11 +22,11 @@ class Page extends React.Component {
 	
 	render() {
 		console.log('index rendering with sensor ' + this.state.sensor)
-		let mygraph = null;
+		let graphs = null;
 		if (this.state.sensor === '') {
-			mygraph = <div>Empty graph!</div>
+			graphs = <div>Empty graph!</div>
 		} else {
-			mygraph = <GraphContainer sensor={this.state.sensor} key={this.state.sensor} />
+			graphs = <GraphList sensor={this.state.sensor} key={this.state.sensor} />
 		}
 
         return (			
@@ -41,7 +41,7 @@ class Page extends React.Component {
 						<SideBarContainer sensorClick={this.sensorClick} />
 					</Col>
 					<Col>
-						{mygraph}
+						{graphs}
 					</Col>
 				</Row>
 			</Container>

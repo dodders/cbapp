@@ -4,5 +4,6 @@
 
 .btn {
     margin-bottom: 2px;
-    min-width: 70px
+    min-width: 70px;
+    display: block;
 }

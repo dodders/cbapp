@@ -5,6 +5,12 @@ import {Container, Row, Col} from 'reactstrap';
 import GraphList from './components/GraphList/GraphList'
 import SideBarContainer from './components/Sidebar/SidebarContainer'
 import Header from './components/Header/Header'
+// import './assets/css/bootstrap-social.css'
+// import './assets/css/bootstrap-theme.css'
+// import './assets/css/bootstrap.css'
+// import './assets/css/font-awesome.css'
+import './newassets/css/bootstrap.min.css'
+import './newassets/css/styles.css'
 
 var appstate = {sensor: ''}
 
@@ -30,21 +36,15 @@ class Page extends React.Component {
 		}
 
         return (			
-			<Container>
-				<Row>
-					<Col>
-						<Header/>
-					</Col>
-				</Row>
-				<Row>
+			<Header />
+				/* <Row>
 					<Col className="col-2">
 						<SideBarContainer sensorClick={this.sensorClick} />
 					</Col>
 					<Col>
 						{graphs}
 					</Col>
-				</Row>
-			</Container>
+				</Row> */
         );
     }
 }

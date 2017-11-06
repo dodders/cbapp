@@ -35,16 +35,20 @@ class Page extends React.Component {
 			graphs = <GraphList sensor={this.state.sensor} key={this.state.sensor} />
 		}
 
-        return (			
-			<Header />
-				/* <Row>
-					<Col className="col-2">
-						<SideBarContainer sensorClick={this.sensorClick} />
-					</Col>
-					<Col>
-						{graphs}
-					</Col>
-				</Row> */
+        return (	
+			<div>		
+				<Header />
+				<div className="page-content">
+					<Row>
+						<Col xs="col-md-2">
+							<SideBarContainer sensorClick={this.sensorClick} />
+						</Col>
+						<Col xs="col-md-10">
+							{graphs}
+						</Col>
+					</Row>
+				</div>
+			</div>
         );
     }
 }

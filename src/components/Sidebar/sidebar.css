@@ -1,9 +1,4 @@
-.sidebar {
-    color: darkblue;
-}
-
-.btn {
-    margin-bottom: 2px;
-    min-width: 70px;
+.sidebar-block {
     display: block;
+    max-width: 100px;
 }

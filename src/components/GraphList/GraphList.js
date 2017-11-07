@@ -1,6 +1,7 @@
 import React from 'react';
 import GraphContainer from '../Graph/GraphContainer'
-import { Alert } from 'reactstrap'
+import { Row, Col } from 'reactstrap'
+import './graphlist.css'
 
 class GraphList extends React.Component {
 
@@ -9,19 +10,28 @@ class GraphList extends React.Component {
         this.types = ['F', 'H', 'P', 'BAT', 'RSSI']        
     }
 
-    render = () => {
+    render() {
         return (
             <div>
-                <Alert color='info'>Sensor {this.props.sensor}</Alert>
-                <div>
-                    {this.types.map(type => {
-                        return (
-                            <div>
-                                <GraphContainer sensor={this.props.sensor} type={type} />
-                            </div>
+            <div className="row">
+                <Col xs="md-6" className="panel-warning">
+                    <div className="content-box-header panel-heading">
+                        <div className="panel-title">Sensor {this.props.sensor}</div>
+                        <div className="panel-options">
+                            <button id="timebtn" className="btn btn-info time-btn">Day</button>
+                            <button id="timebtn" className="btn btn-info time-btn">Week</button>
+                            <button id="timebtn" className="btn btn-info time-btn">Month</button>
+                        </div>
+                    </div>
+                </Col>
+            </div>
+            <div>
+                {this.types.map(type => {
+                    return (
+                            <GraphContainer sensor={this.props.sensor} type={type} />
                         );
                     })}
-                </div>
+            </div>
             </div>
         );
     }

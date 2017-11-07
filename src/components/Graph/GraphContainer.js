@@ -1,7 +1,7 @@
 import React from 'react';
 import request from 'request'
 import Graph from './Graph'
-import { Alert } from 'reactstrap'
+import { Row, Col } from 'reactstrap'
 
 const baseurl = 'http://74.208.159.205:5000/sensor/'
 
@@ -27,18 +27,17 @@ class GraphContainer extends React.Component {
 
 	render() {
         console.log('graph container render...')
+        let ct = 0
         if (this.state.data.length <= 1) {
             return (
-                <div>
-                    <Alert color="info">
-                        No data found for {this.props.type}
-                    </Alert>
-                </div>
+                <div></div>
             );
         } else {
             return (
-                <div>
-                    <Graph data={this.state.data} sensor={this.props.sensor} type={this.props.type} />
+                <div className="row">
+                    <Col xs="md-6">
+                        <Graph data={this.state.data} sensor={this.props.sensor} type={this.props.type} />
+                    </Col>
                 </div>
             );
         }

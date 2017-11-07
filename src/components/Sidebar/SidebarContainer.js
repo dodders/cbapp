@@ -23,11 +23,9 @@ class SidebarContainer extends React.Component {
 
     render() {
         return(
-            <div>
                 <Sidebar
                  sensors={this.state.sensors.sort()}
                  sensorClick={this.props.sensorClick} />
-            </div>
         );
     }
 }

@@ -31,17 +31,26 @@ class Graph extends React.Component {
 		console.log('sensor ' + this.props.sensor + ' graph rendering...')
 		return (
 			<div>
-	 			<MetricsGraphics
-	 				title={title}
-	 				description="This is a simple line chart."
-	 				data={data}
-	 				width={600}
-	 				height={200}
-	 				right={40}
-	 				x_accessor="date"
-	 				y_accessor="value"
-	 			/>
-	 		</div>
+				<div className="content-box-header panel-warning">
+					<div className="panel-title">Type {this.props.type}</div>
+					<div className="panel-options">
+						<a href="#" data-rel="collapse">
+							<i className="glyphicon glyphicon-refresh" />
+						</a>
+					</div>
+				</div>
+				<div className="content-box-large box-with-header">
+					<MetricsGraphics
+						title={title}
+						description="This is a simple line chart."
+						data={data}
+						width={500}
+						height={200}
+						x_accessor="date"
+						y_accessor="value"
+					/>
+				</div>
+			</div>
 	 	);
 	}
 }

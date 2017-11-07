@@ -11,6 +11,7 @@ import Header from './components/Header/Header'
 // import './assets/css/font-awesome.css'
 import './newassets/css/bootstrap.min.css'
 import './newassets/css/styles.css'
+import './index.css'
 
 var appstate = {sensor: ''}
 
@@ -30,7 +31,7 @@ class Page extends React.Component {
 		console.log('index rendering with sensor ' + this.state.sensor)
 		let graphs = null;
 		if (this.state.sensor === '') {
-			graphs = <div>Empty graph!</div>
+			graphs = <div></div>
 		} else {
 			graphs = <GraphList sensor={this.state.sensor} key={this.state.sensor} />
 		}
@@ -40,10 +41,10 @@ class Page extends React.Component {
 				<Header />
 				<div className="page-content">
 					<Row>
-						<Col xs="col-md-2">
+						<Col xs="md-2">
 							<SideBarContainer sensorClick={this.sensorClick} />
 						</Col>
-						<Col xs="col-md-10">
+						<Col xs="md-10">
 							{graphs}
 						</Col>
 					</Row>

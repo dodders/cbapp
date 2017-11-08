@@ -34,7 +34,7 @@ class Graph extends React.Component {
 				<div className="content-box-header panel-warning">
 					<div className="panel-title">Type {this.props.type}</div>
 					<div className="panel-options">
-						<a href="#" data-rel="collapse">
+						<a href="#" data-rel="collapse" onClick={this.props.refresh}>
 							<i className="glyphicon glyphicon-refresh" />
 						</a>
 					</div>

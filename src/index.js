@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
-import {Container, Row, Col} from 'reactstrap';
+import {Row, Col} from 'reactstrap';
 import GraphList from './components/GraphList/GraphList'
 import SideBarContainer from './components/Sidebar/SidebarContainer'
 import Header from './components/Header/Header'

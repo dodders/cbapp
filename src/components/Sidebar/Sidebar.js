@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from 'reactstrap';
 import './sidebar.css'
 
 class Sidebar extends React.Component {

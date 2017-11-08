@@ -1,7 +1,7 @@
 import React from 'react';
 import request from 'request'
 import Graph from './Graph'
-import { Row, Col } from 'reactstrap'
+import { Col } from 'reactstrap'
 
 const baseurl = 'http://74.208.159.205:5000/sensor/'
 
@@ -11,23 +11,34 @@ class GraphContainer extends React.Component {
         super(props)
         console.log('graph container constructor...')
         this.state = {
-            data: []
+            data: [],
+            period: 1
         }
+    }
+
+    setWeek = () => {
+        this.setState({
+            data: this.state.data,
+            period: 7
+        })
     }
 
     componentDidMount() {
         console.log('graph container componentDidMount for ' + this.props.sensor)
         var _this = this
-        var newurl = baseurl + this.props.sensor + '?type=' + this.props.type + '&skip=10'
+        var newurl = baseurl + this.props.sensor + '?type=' + this.props.type + '&skip=10&period=' + this.state.period
         console.log('fetching sensor data from ' + newurl)
         request(newurl, function(err, resp, body) {
-            _this.setState({data: JSON.parse(body), loaded: true})
+            _this.setState({data: JSON.parse(body), period: _this.state.period})
 		})
     }
 
-	render() {
+    refresh = () => {
+        this.componentDidMount()
+    }
+
+	render = () => {
         console.log('graph container render...')
-        let ct = 0
         if (this.state.data.length <= 1) {
             return (
                 <div></div>
@@ -35,8 +46,10 @@ class GraphContainer extends React.Component {
         } else {
             return (
                 <div className="row">
-                    <Col xs="md-6">
-                        <Graph data={this.state.data} sensor={this.props.sensor} type={this.props.type} />
+                    <Col xs="md-10">
+                        <Graph data={this.state.data} sensor={this.props.sensor} 
+                            type={this.props.type} refresh={this.refresh}
+                            setweek={this.setweek} />
                     </Col>
                 </div>
             );

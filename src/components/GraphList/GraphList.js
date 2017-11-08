@@ -1,6 +1,6 @@
 import React from 'react';
 import GraphContainer from '../Graph/GraphContainer'
-import { Row, Col } from 'reactstrap'
+import { Col } from 'reactstrap'
 import './graphlist.css'
 
 class GraphList extends React.Component {
@@ -14,7 +14,7 @@ class GraphList extends React.Component {
         return (
             <div>
             <div className="row">
-                <Col xs="md-6" className="panel-warning">
+                <Col xs="md-10" className="panel-warning">
                     <div className="content-box-header panel-heading">
                         <div className="panel-title">Sensor {this.props.sensor}</div>
                         <div className="panel-options">

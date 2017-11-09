@@ -1,6 +1,7 @@
 import React from 'react';
 import dateformat from 'dateformat'
-import MetricsGraphics from 'react-metrics-graphics'
+//import MetricsGraphics from 'react-metrics-graphics'
+import { Line } from 'react-chartjs-2'
 import './mg.css'
 
 function fmtDate(epochtime) {
@@ -12,7 +13,7 @@ function fmtData(data) {
 	var curData = []
 	for (var i = 1; i < data.length; i++) { //ignore 1st item
 		var el = data[i]
-		curData.push({'date': new Date(fmtDate(el.time)), 'value': el.value})
+		curData.push({'x': new Date(fmtDate(el.time)), 'y': el.value})
 	}
 	return curData
 }
@@ -21,13 +22,36 @@ class Graph extends React.Component {
 
 	constructor(props) {
 		super(props)
-		console.log('graph constructor fired.')
 	}
 
 	render() {
-		console.log('graph render fired...')
 		var title = this.props.type
-		var data = fmtData(this.props.data)
+		var points = fmtData(this.props.data)
+		var data = {
+			datasets: [
+				{
+				  label: title,
+				  data: points,
+				  fill: false,
+				  lineTension: 0.1,
+				  backgroundColor: 'rgba(75,192,192,0.4)',
+				  borderColor: 'rgba(75,192,192,1)',
+				  borderCapStyle: 'butt',
+				  borderDash: [],
+				  borderDashOffset: 0.0,
+				  borderJoinStyle: 'miter',
+				  pointBorderColor: 'rgba(75,192,192,1)',
+				  pointBackgroundColor: '#fff',
+				  pointBorderWidth: 1,
+				  pointHoverRadius: 5,
+				  pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+				  pointHoverBorderColor: 'rgba(220,220,220,1)',
+				  pointHoverBorderWidth: 2,
+				  pointRadius: 1,
+				  pointHitRadius: 10
+				}
+			]
+		}
 		console.log('sensor ' + this.props.sensor + ' graph rendering...')
 		return (
 			<div>
@@ -40,7 +64,8 @@ class Graph extends React.Component {
 					</div>
 				</div>
 				<div className="content-box-large box-with-header">
-					<MetricsGraphics
+					<Line data={data}/>
+					{/* <MetricsGraphics
 						title={title}
 						description="This is a simple line chart."
 						data={data}
@@ -48,7 +73,7 @@ class Graph extends React.Component {
 						height={200}
 						x_accessor="date"
 						y_accessor="value"
-					/>
+					/> */}
 				</div>
 			</div>
 	 	);

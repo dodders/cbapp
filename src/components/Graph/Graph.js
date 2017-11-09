@@ -18,6 +18,15 @@ function fmtData(data) {
 	return curData
 }
 
+const opts = {
+	scales: {
+		xAxes: [{
+			type: 'time',
+			time: {unit:'day'}
+		}]
+	}
+}
+
 class Graph extends React.Component {
 
 	constructor(props) {
@@ -64,7 +73,7 @@ class Graph extends React.Component {
 					</div>
 				</div>
 				<div className="content-box-large box-with-header">
-					<Line data={data}/>
+					<Line data={data} options={opts}/>
 					{/* <MetricsGraphics
 						title={title}
 						description="This is a simple line chart."

@@ -5,10 +5,25 @@ import { Line } from 'react-chartjs-2'
 const url = 'http://74.208.159.205:5000/sensor/54?type=F&skip=10'
 
 const data = {
+    //labels: ['m', 't','w','t','f'],
     datasets: [
       {
         label: 'ChartJS Test',
-        fill: false,
+        //data: [{x: 1, y:80}, {x:2, y:81}, {x:3, y:56}, {x:4, y:55}, {x:5, y:40}],
+        data: [{
+            x: new Date(2017,10,1),
+            y: 10
+        }, {
+            x: new Date(2017,10,2),
+            y: 13
+        },{
+            x: new Date(2017,10,3),
+            y:15
+        }, {
+            x: new Date(2017,10,4),
+            y:20
+        }],
+        fill: true,
         lineTension: 0.1,
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
@@ -24,11 +39,19 @@ const data = {
         pointHoverBorderColor: 'rgba(220,220,220,1)',
         pointHoverBorderWidth: 2,
         pointRadius: 1,
-        pointHitRadius: 10,
-        data: [65, 59, 80, 81, 56, 55, 40]
+        pointHitRadius: 10
       }
     ]
   }
+
+const opts = {
+        scales: {
+            xAxes: [{
+                type: 'time',
+                time: {unit:'day'}
+            }]
+        }
+}
 
 class ChartContainer extends React.Component {
 
@@ -49,7 +72,8 @@ class ChartContainer extends React.Component {
 
     render() {
         return (
-            <Line data={data} />
+            <Line data={data} options={opts}  
+            />
         );
     }
 }

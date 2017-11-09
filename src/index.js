@@ -31,7 +31,7 @@ class Page extends React.Component {
 	render() {
 		// return (
 		// 	<ChartContainer />
-		// )
+		// );
 		console.log('index rendering with sensor ' + this.state.sensor)
 		let graphs = null;
 		if (this.state.sensor === '') {

@@ -26,7 +26,7 @@ class GraphContainer extends React.Component {
     componentDidMount() {
         console.log('graph container componentDidMount for ' + this.props.sensor)
         var _this = this
-        var newurl = baseurl + this.props.sensor + '?type=' + this.props.type + '&skip=10&period=2'
+        var newurl = baseurl + this.props.sensor + '?type=' + this.props.type + '&skip=100&period=31'
         console.log('fetching sensor data from ' + newurl)
         request(newurl, function(err, resp, body) {
             _this.setState({data: JSON.parse(body), period: _this.state.period})

@@ -45,12 +45,17 @@ class Page extends React.Component {
 				<Header />
 				<div className="page-content">
 					<Row>
-						<Col xs="md-2">
-							<SideBarContainer sensorClick={this.sensorClick} />
+						<Col xs="md-1">
 						</Col>
-						<Col xs="md-10">
-							{graphs}
+						<Col xs="md-8">
+							<Row>
+								<SideBarContainer sensorClick={this.sensorClick} />
+							</Row>
+							<Row>
+								{graphs}
+							</Row>
 						</Col>
+						<Col xs="md-3" />
 					</Row>
 				</div>
 			</div>

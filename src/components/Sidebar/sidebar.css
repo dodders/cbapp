@@ -1,3 +1,29 @@
 .sidebar-block {
     max-width: 100px;
 }
+
+#sensor-item {
+    display: inline;
+    padding: 2px;
+    margin: 2px;
+}
+
+#sidebar {
+    margin-bottom: 5px;
+    padding: 2px;
+}
+
+ul li {
+    display: inline;
+}
+
+.btn {
+    margin: 5px 1px;
+    padding: 1px 6px;
+}
+
+.content-box {
+    padding: 2px;
+    margin-bottom: 5px;
+}
+

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Col } from 'reactstrap';
 import './sidebar.css'
 
 class Sidebar extends React.Component {
@@ -9,20 +10,19 @@ class Sidebar extends React.Component {
 
   render = () => {
     return (
-      <div className="sidebar content-box ">
-        <ul className="nav">
+      <Col>
+      <div id="sidebar" className="sidebar content-box">
+        <ul>
           {this.props.sensors.map(sensor => {
             return (
-              <li className="current" key={sensor}>
-                <a href="#" onClick={this.handleClick}>
-                  <i className="glyphicon glyphicon-hand-right"></i>
-                  &nbsp;Sensor {sensor}
-                </a>
+              <li id="sensor-item" className="current" key={sensor}>
+                <button onClick={this.handleClick} className="btn btn-info">{sensor}</button>
               </li>
             );
           })}
         </ul>
       </div>
+      </Col>
     );
   }
 }

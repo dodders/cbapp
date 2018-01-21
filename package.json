@@ -23,6 +23,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy": "aws s3 sync build/ s3://aws-website-cbsite-3dv34 --delete"
+    "deploy": "aws s3 sync build/ s3://aws-website-cbsite-3dv34 --profile cbuser --delete"
   }
 }
